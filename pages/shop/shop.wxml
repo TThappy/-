@@ -1,0 +1,29 @@
+<view class="page">  
+    <view class="page__bd">
+        <mp-searchbar bindselectresult="selectResult" search="{{search}}"></mp-searchbar>
+    </view>
+
+  <view class='page__bd page__bd_spacing'>
+    <view class="weui-flex">
+      <view class="weui-flex__item">
+        <view class="weui-flex__item">
+          <button class="btn" bindtap="pushgoods">
+            投放物品
+          </button>
+        </view>
+      </view>
+    </view>
+    <view class='line'></view>
+    <view class="weui-flex">
+        <view class="weui-flex__item"><view class="bod">---丢失物品---</view></view>
+    </view>
+    <view class="goods-container">
+      <view class="goods-box" wx:for-items="{{goods}}" wx:key="{{index}}" bindtap="toDetailsTap" data-id="{{item.id}}">
+        <view class="goods-left">{{index+1}}</view>
+        <view class="goods-right">{{item.name}}</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+

@@ -1,0 +1,60 @@
+.placeholder{
+    margin: 5px;
+    padding: 0 10px;
+    text-align: center;
+    background-color: #F7F7F7;
+    height: 2.3em;
+    line-height: 2.3em;
+    color: rgba(34, 25, 160, 0);
+}
+.line{
+  margin: 0 auto;
+  width: 100vw;
+  height: 24rpx;
+  background-color: #F2f2f2;
+}
+.btn{
+  margin-top: 15px;
+   margin-bottom: 15px;
+  background-color: #5cadff;
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  font-size: 35rpx;
+  display: flex;
+  align-items: center;
+}
+.weui-btn{
+  top:0.15em;
+}
+.bod{
+  text-align: center;
+  margin: 6px;
+  color: rgba(0, 0, 0, 0.349);
+}
+.goods-container{
+  display: flex;
+  flex-wrap:wrap;
+  box-sizing: content-box;
+  justify-content: space-between;
+  padding: 24rpx;
+  background-color: #F2f2f2;
+}
+.goods-box{
+  width:100%;
+  height: 100%;
+  /* background-color: white; */
+  overflow: hidden;
+  margin-bottom: 24rpx;
+}
+.goods-box .goods-left{
+  background-color: rgb(243, 92, 135);
+  width:4%;
+  display: inline-block;
+  color: white;
+  text-align: center;
+}
+.goods-box .goods-right{
+  padding-left: 24rpx;
+  display: inline-block;
+}

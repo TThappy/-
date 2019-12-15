@@ -1,0 +1,32 @@
+
+<form bindsubmit="formSubmit">
+  <i-panel title="实名认证">
+    <i-input value="{{ actual_name}}" title="姓名" autofocus placeholder="名字" />
+    <i-input value="{{ telephone }}" type="number" title="电话" placeholder="请输入手机号" />
+    <view class="weui-cell"> 
+      <view class="weui-cell__bd"> 
+      <view class="weui-uploader"> 
+        <view class="weui-uploader__hd"> 
+        <view class="weui-uploader__title">学生卡正面照</view> 
+        </view> 
+        <view class="weui-uploader__bd"> 
+        <view class="weui-uploader__files"> 
+          <block wx:for="{{imageList}}" wx:for-item="image"> 
+          <view class="weui-uploader__file"> 
+            <image class="weui-uploader__img" src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image> 
+          </view> 
+          </block> 
+        </view> 
+        <view class="weui-uploader__input-box"> 
+          <view class="weui-uploader__input" bindtap="chooseImage"></view> 
+        </view> 
+        </view> 
+      </view> 
+      </view> 
+    </view>
+      <view class="page__bd page__bd_spacing">
+        <button class="weui-btn ju" type="primary" formType="submit">提交信息</button>
+      </view>
+  </i-panel>  
+</form>
+

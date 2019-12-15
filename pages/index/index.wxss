@@ -1,0 +1,27 @@
+/**index.wxss**/
+.container{
+  height: 100vh;
+}
+
+.bkgd{
+  width: 100vw;
+  height:100vh;  
+}
+
+.bkgd image{
+  width:100%;
+  height:100vh;
+  display: inline-block;
+  overflow: hidden;
+}
+.dot{
+  position: absolute;  
+  left: 0;  
+  right: 0;  
+  bottom: 45vh;  
+  display: flex;  
+  justify-content: center;  
+}
+.btn{
+  background-color: orange;
+}

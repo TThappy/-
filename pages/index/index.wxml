@@ -1,0 +1,14 @@
+<view class='container'>
+  <view class='bkgd'>
+    <view class='bkgd_image'>
+     <image src="../../images/swzl.png"></image>
+    </view>  
+    <view class='dot'>
+      <button class='btn' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bindgetuserinfo">
+        进入程序
+      </button>
+    </view>
+  </view>
+  
+</view>
+
