@@ -1,1 +1,39 @@
-我的
+<view class='container'>
+  <!-- 存放头像和名称的容器   -->
+  <view class="margin-xl padding-xl bg-gradual-green radius shadow shadow-cyan">
+    <view class="flex justify-center">
+        <view class='text-center'>
+          <view class="cu-avatar xl round solids" style="background-image:url({{avatarUrl}})"></view>
+          <view class="padding">{{name}}</view>
+        </view>
+    </view>
+  </view>
+
+  <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
+    <view class="cu-item arrow">
+      <navigator  class="content" url="/pages/mine/identify/identify" hover-class="none">
+        <text class="cuIcon-github text-grey"></text>
+        <text class="text-grey">实名认证</text>
+      </navigator>
+    </view>
+    <view class="cu-item arrow">
+      <navigator class="content" url="/pages/mine/get-record/get-record" hover-class="none">
+         <text class="cuIcon-formfill text-grey"></text>
+        <text class="text-grey">领取记录</text>
+      </navigator>
+    </view>
+    <view class="cu-item arrow">
+      <navigator class="content" url="/pages/mine/record/record" hover-class="none">
+        <text class="cuIcon-formfill text-green"></text>
+        <text class="text-grey">投放记录</text>
+      </navigator>
+    </view>
+    <view class="cu-item arrow">
+      <view redirect="true" class="content" bindtap="showQrcode">
+        <text class="cuIcon-appreciatefill text-red"></text>
+        <text class="text-grey">赞赏支持</text>
+      </view>
+    </view>  
+  </view>
+  
+</view>

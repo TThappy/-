@@ -932,7 +932,6 @@ button.icon.lg {
 
 .cu-avatar {
 	font-variant: small-caps;
-	margin: 0;
 	padding: 0;
 	display: inline-flex;
 	text-align: center;

@@ -1,9 +1,19 @@
-.avatar{
-  float: right;
+.container{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
-.container-mine{
-  min-height: 100%;
+.container-top{
+  height: 20vh;
   width: 100vw;
-  overflow: hidden;
-  overflow-y: hidden;
+  background-color: #fde6d2;
+}
+.container-top-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.container-top-content image{
+  margin-top: 10px;
 }

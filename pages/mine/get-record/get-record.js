@@ -4,18 +4,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    PageCur: 'shop'
+    
   },
-  NavChange(e) {
-    this.setData({
-      PageCur: e.currentTarget.dataset.cur
-    })
-  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    
   },
 
   /**

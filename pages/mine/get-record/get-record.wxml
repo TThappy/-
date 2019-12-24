@@ -2,4 +2,4 @@
   <view slot="backText">返回</view>
   <view slot="content">智能失物招领</view>
 </cu-custom>
-投放记录
+领取记录

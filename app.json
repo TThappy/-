@@ -7,6 +7,7 @@
     "pages/shop/goods/goods",
     "pages/mine/identify/identify",
     "pages/mine/record/record",
+    "pages/mine/get-record/get-record",
     "pages/push/push"
     
   ],
