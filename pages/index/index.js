@@ -10,10 +10,11 @@ Page({
   bindgetuserinfo(e){ //点击进入程序设计
     wx.getUserInfo({ //调用授权
       success: (res) =>{
+        console.log('ok')
         this.setData({
           userInfo:true
         });
-        wx.switchTab({
+        wx.reLaunch({
           url: '../shop/shop',
         })
       },
@@ -30,7 +31,8 @@ Page({
       success:(res) => {
         console.log(res.authSetting)
         if(res.authSetting['scope.userInfo']){
-          wx.switchTab({
+          console.log(1)
+          wx.reLaunch({
             url: '../shop/shop',
           })
         }

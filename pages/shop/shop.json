@@ -1,5 +1,4 @@
 {
   "usingComponents": {
-    "mp-searchbar": "../../components/searchbar/searchbar"
   }
 }
