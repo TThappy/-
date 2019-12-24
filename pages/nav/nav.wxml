@@ -1,0 +1,20 @@
+<cu-custom bgColor="bg-gradual-blue">
+  <view slot="content">智能失物招领</view>
+</cu-custom>
+<shop wx:if="{{PageCur=='shop'}}"></shop>
+<push wx:if="{{PageCur=='push'}}"></push>
+<mine wx:if="{{PageCur=='mine'}}"></mine>  
+<view class="cu-bar tabbar bg-black shadow foot">
+   <view bindtap='NavChange' data-cur="shop" class="action {{PageCur=='shop'?'text-green':'text-gray'}}">
+      <view class="cuIcon-homefill"></view> 首页
+    </view>
+    <view  bindtap='NavChange' data-cur="push" class="action {{PageCur=='push'?'text-green':'text-gray'}} add-action">
+      <button class="cu-btn cuIcon-add bg-green shadow"></button>
+      物品投放
+    </view>
+    <view bindtap='NavChange' data-cur="mine" class="action {{PageCur=='mine'?'text-green':'text-gray'}}">
+      <view class="cuIcon-my">
+      </view>
+      我的
+    </view>
+</view>

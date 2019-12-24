@@ -15,7 +15,7 @@ Page({
           userInfo:true
         });
         wx.reLaunch({
-          url: '../shop/shop',
+          url: '/pages/nav/nav',
         })
       },
       fail:(res) =>{
@@ -33,7 +33,7 @@ Page({
         if(res.authSetting['scope.userInfo']){
           console.log(1)
           wx.reLaunch({
-            url: '../shop/shop',
+            url: '/pages/nav/nav',
           })
         }
       },

@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "shop": "/pages/shop/shop/shop",
+    "push": "/pages/push/push",
+    "mine": "/pages/mine/mine/mine"
+  }
+}

@@ -1,12 +1,12 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/shop/shop",
-    "pages/mine/mine",
-    "pages/goods-details/goods-details",
-    "pages/goods/goods",
-    "pages/identify/identify",
-    "pages/record/record",
+    "pages/shop/shop/shop",
+    "pages/mine/mine/mine",
+    "pages/shop/goods-details/goods-details",
+    "pages/shop/goods/goods",
+    "pages/mine/identify/identify",
+    "pages/mine/record/record",
     "pages/push/push"
     
   ],
