@@ -5,70 +5,56 @@ Page({
    */
   data: {
     actual_name:'',
-    telephone:''
+    studentNo:'',
+    phone:'',
+    imgList: [],
   },
-  formSubmit:(detail) =>{
-    console.log(detail.value)
-  },
-  chooseImage: function () {
-    var that = this;
-    console.log('aaaaaaaaaaaaaaaaaaaa')
-
-    wx.chooseImage({
-      success: function (res) {
-        console.log('ssssssssssssssssssssssssss')
-        //缓存下 
-        wx.showToast({
-          title: '正在上传...',
-          icon: 'loading',
-          mask: true,
-          duration: 2000,
-          success: function (ress) {
-            console.log('成功加载动画');
-          }
-        })
-
-        console.log(res)
-        that.setData({
-          imageList: res.tempFilePaths
-        })
-        //获取第一张图片地址 
-        var filep = res.tempFilePaths[0]
-        //向服务器端上传图片 
-        // getApp().data.servsers,这是在app.js文件里定义的后端服务器地址 
-        wx.uploadFile({
-          url: getApp().data.servsers + '/weixin/wx_upload.do',
-          filePath: filep,
-          name: 'file',
-          formData: {
-            'user': 'test'
-          },
-          success: function (res) {
-            console.log(res)
-            console.log(res.data)
-            var sss = JSON.parse(res.data)
-            var dizhi = sss.dizhi;
-            //输出图片地址 
-            console.log(dizhi);
-            that.setData({
-              "dizhi": dizhi
-            })
-
-            //do something  
-          }, fail: function (err) {
-            console.log(err)
-          }
-        });
-      }
+  formSubmit: function (e){
+    var that = this
+    that.setData({
+      actual_name: e.detail.value.actual_name,
+      studentNo: e.detail.value.studentNo,
+      phone:e.detail.value.phone
     })
   },
-  previewImage: function (e) {
-    var current = e.target.dataset.src
-
+  ChooseImage() {
+    wx.chooseImage({
+      count: 4, //默认9
+      sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+      sourceType: ['album'], //从相册选择
+      success: (res) => {
+        if (this.data.imgList.length != 0) {
+          this.setData({
+            imgList: this.data.imgList.concat(res.tempFilePaths)
+          })
+        } else {
+          this.setData({
+            imgList: res.tempFilePaths
+          })
+        }
+      }
+    });
+  },
+  ViewImage(e) {
     wx.previewImage({
-
-      current: current,
-      urls: this.data.imageList
+      urls: this.data.imgList,
+      current: e.currentTarget.dataset.url
+    });
+  },
+  DelImg(e) {
+    wx.showModal({
+      title: '删除图片',
+      content: '确定要删除这段回忆吗？',
+      cancelText: '再看看',
+      confirmText: '再见',
+      success: res => {
+        if (res.confirm) {
+          this.data.imgList.splice(e.currentTarget.dataset.index, 1);
+          this.setData({
+            imgList: this.data.imgList
+          })
+        }
+      }
     })
   },
   /**
