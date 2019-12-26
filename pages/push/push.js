@@ -71,16 +71,19 @@ Component({
       })
     },
     DateChange(e) {
+      console.log(e);
       this.setData({
         date: e.detail.value
       })
     },
     TimeChange(e) {
+      console.log(e);
       this.setData({
         time: e.detail.value
       })
     },
     textareaBInput(e) {
+      console.log(e);
       this.setData({
         textareaBValue: e.detail.value
       })
