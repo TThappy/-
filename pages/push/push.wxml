@@ -1,4 +1,4 @@
-<form bindsubmit="formSubmit">
+<form bindsubmit="formSubmit1">
   <view class="cu-form-group margin-top">
 		<view class="title">物品类别:</view>
 		<picker bindchange="PickerChange" name='kind' value="{{index}}" range="{{picker}}">

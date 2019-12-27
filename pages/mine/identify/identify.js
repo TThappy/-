@@ -8,13 +8,35 @@ Page({
     studentNo:'',
     phone:'',
     imgList: [],
+    identify:''
   },
   formSubmit: function (e){
+    console.log(e);
     var that = this
+    console.log(that.data.imgList)
     that.setData({
       actual_name: e.detail.value.actual_name,
       studentNo: e.detail.value.studentNo,
       phone:e.detail.value.phone
+    })
+    wx.request({
+      url: 'http://127.0.0.1:8000/api/identity/',
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie":"JSESSIONID="+wx.getStorageSync("sessionId")
+      },
+      method: 'POST',
+      data: {
+        actual_name: e.detail.value.actual_name,
+        studentNo: e.detail.value.studentNo,
+        phone: e.detail.value.phone,
+        openId:wx.getStorageSync("openId")
+      },
+      success(res) {
+        wx.navigateTo({
+          url: '/pages/nav/nav',
+        })
+      }
     })
   },
   ChooseImage() {
@@ -61,7 +83,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    var that = this;
+    wx.request({
+      url: 'http://127.0.0.1:8000/api/user/',
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")
+      },
+      method: 'POST',
+      data: {
+        openId: wx.getStorageSync("openId")
+      },
+      success(res) {
+        that.setData({
+          identify:res.data.identify
+        })
+      }
+    })
   },
 
   /**

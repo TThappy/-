@@ -17,11 +17,26 @@ Component({
     wx.hideLoading()
   },
   methods: {
-    formSubmit: function (e) {
-      console.log(e)
-      var that = this
-      that.setData({
-        
+    formSubmit1: function (e) {
+      var that = this;
+      wx.request({
+        url: 'http://127.0.0.1:8000/api/goods/',
+        header: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")
+        },
+        method: 'POST',
+        data: {
+          kind:that.data.picker[that.data.index],
+          missTime: that.data.date+' '+that.data.time,
+          missPlace:that.data.textareaBValue,
+          openid_user_id: wx.getStorageSync("openId")
+        },
+        success(res) {
+          wx.navigateTo({
+            url: '/pages/nav/nav',
+          })
+        }
       })
     },
     ChooseImage() {

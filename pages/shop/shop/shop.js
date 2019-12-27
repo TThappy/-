@@ -58,6 +58,9 @@ Component({
                 vxName: res.userInfo.nickName,
                 vxImage: res.userInfo.avatarUrl,
                 code: ret.code
+              },
+              success(res){
+                wx.setStorageSync("openId", res.data['openId'])
               }
             })
           },

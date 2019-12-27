@@ -1,11 +1,46 @@
 //app.js
 App({
+  getSession: function () {
+    var that = this;
+    console.log(2)
+    wx.login({
+      success: (ret) => {
+        console.log(ret)
+        wx.getUserInfo({
+          success: (res) => {
+            wx.request({
+              url: 'http://127.0.0.1:8000/api/auth/',
+              header: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              method: 'GET',
+              data: {
+                code: ret.code
+              },
+              success(res) {
+                wx.setStorageSync("sessionId", res.data["session_key"])
+              }
+            })
+          },
+
+        })
+
+      }
+
+    })
+  },
+  refresh:function(){
+    var that=this;
+    setInterval(that.getSession,20*60*1000)
+  },
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-
+    
+    this.getSession();
+    this.refresh();
     // 登录
     wx.login({
       success: res => {
