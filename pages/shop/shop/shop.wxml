@@ -17,3 +17,14 @@
 <view wx:for="{{navs}}" wx:key wx:if="{{index==TabCur}}" class="bg-grey padding margin text-center">
   {{item.title}}
 </view>
+<view wx:for="{{navs}}" wx:key wx:if="{{index==TabCur}}" >
+  <view class="margin cu-list bg-white menu radius">
+    <view class="cu-item arrow radius" wx:for="{{item.dataList}}"  wx:for-index="dataListIndex" wx:for-item="dataList"  wx:key data-id="{{dataList.goodsId}}" bindtap="toGoodsDetail">
+        <view class="content" hover-class="none" >
+          <text class="  text-orange">{{dataListIndex+1}}.</text>
+          <text class=" text-cut text-blue">{{dataList.missPlace}}</text>
+        </view>
+    </view>    
+  </view>
+</view>
+

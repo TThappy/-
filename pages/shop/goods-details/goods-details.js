@@ -1,19 +1,44 @@
-Page({
 
+var util = require('../../../utils/util.js');
+Page({
   /**
    * 页面的初始数据
    */
   data: {
-    id:''
+    goodsId:null,
+    dataList:[],
   },
+  // 领取物品
+  getGoodsTap:function(e){
 
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options)
     var that = this
     that.setData({
-      id:options.id
+      goodsId:options.goodsId
+    })
+    wx.request({
+      url: 'http://127.0.0.1:8000/api/goodsdetail/',
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")
+      },
+      data:{
+        goodsId:that.data.goodsId
+      },
+      method:"GET",
+      success(res){
+        res.data['missTime'] = util.formatTime(res.data['missTime'],"y-m-d h:m")
+        res.data['upTime'] = util.formatTime(res.data['upTime'], "y-m-d h:m")
+        that.setData({
+          dataList:res.data
+        })
+        console.log(that.data.dataList)
+      }
     })
   },
 

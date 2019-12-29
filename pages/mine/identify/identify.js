@@ -90,7 +90,7 @@ Page({
         "Content-Type": "application/x-www-form-urlencoded",
         "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")
       },
-      method: 'POST',
+      method: 'GET',
       data: {
         openId: wx.getStorageSync("openId")
       },
