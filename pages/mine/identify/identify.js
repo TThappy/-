@@ -1,5 +1,5 @@
+var app = getApp();
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -20,7 +20,7 @@ Page({
       phone:e.detail.value.phone
     })
     wx.request({
-      url: 'http://127.0.0.1:8000/api/identity/',
+      url: app.globalData.url + '/api/identity/',
       header: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Cookie":"JSESSIONID="+wx.getStorageSync("sessionId")
@@ -33,6 +33,7 @@ Page({
         openId:wx.getStorageSync("openId")
       },
       success(res) {
+        console.log("urlok")
         wx.navigateTo({
           url: '/pages/nav/nav',
         })
@@ -85,7 +86,7 @@ Page({
   onLoad: function (options) {
     var that = this;
     wx.request({
-      url: 'http://127.0.0.1:8000/api/user/',
+      url: app.globalData.url+'/api/user/',
       header: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")

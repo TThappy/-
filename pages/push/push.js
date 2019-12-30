@@ -1,3 +1,4 @@
+var app = getApp();
 Component({
   options: {
     addGlobalClass: true,
@@ -17,31 +18,43 @@ Component({
     wx.hideLoading()
   },
   methods: {
+    randomString:function(len) {
+    　　len = len || 32;
+    　　var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+    　　var maxPos = $chars.length;
+    　　var pwd = '';
+    　　for(i = 0; i<len; i++) {
+  　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+　　     }
+　　return pwd;
+    },
     formSubmit1: function (e) {
       var that = this;
-      wx.request({
-        url: 'http://127.0.0.1:8000/api/goods/',
+      wx.uploadFile({
+        url: app.globalData.url + '/api/goods/',
+        filePath: that.data.imgList[0],
+        name: 'img',
         header: {
-          "Content-Type": "application/x-www-form-urlencoded",
           "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")
         },
-        method: 'POST',
-        data: {
-          kind:that.data.picker[that.data.index],
-          missTime: that.data.date+' '+that.data.time,
-          missPlace:that.data.textareaBValue,
+        formData: {
+          kind: that.data.picker[that.data.index],
+          missTime: that.data.date + ' ' + that.data.time,
+          missPlace: that.data.textareaBValue,
           openid_user_id: wx.getStorageSync("openId")
         },
         success(res) {
+          console.log("物品创建成功")
           wx.navigateTo({
             url: '/pages/nav/nav',
           })
         }
       })
+     
     },
     ChooseImage() {
       wx.chooseImage({
-        count: 4, //默认9
+        count: 1, //默认9
         sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album'], //从相册选择
         success: (res) => {

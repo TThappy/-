@@ -1,3 +1,4 @@
+var app = getApp();
 Component({
   options: {
     addGlobalClass: true,
@@ -63,7 +64,7 @@ Component({
         wx.getUserInfo({
           success: (res) => {
             wx.request({
-              url: 'http://127.0.0.1:8000/api/user/',
+              url: app.globalData.url+'/api/user/',
               header: {
                 "Content-Type": "application/x-www-form-urlencoded"
               },
@@ -85,7 +86,7 @@ Component({
 
     }),
       wx.request({
-        url: 'http://127.0.0.1:8000/api/goods/',
+        url: app.globalData.url + '/api/goods/',
         header: {
           "Content-Type": "application/x-www-form-urlencoded",
           "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")

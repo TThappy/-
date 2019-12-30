@@ -32,7 +32,7 @@
 			物品图片
 		</view>
 		<view class="action">
-			{{imgList.length}}/4
+			{{imgList.length}}/1
 		</view>
 	</view>
 	<view class="cu-form-group">

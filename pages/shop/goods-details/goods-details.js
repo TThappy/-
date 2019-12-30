@@ -1,5 +1,6 @@
 
 var util = require('../../../utils/util.js');
+var app = getApp();
 Page({
   /**
    * 页面的初始数据
@@ -22,7 +23,7 @@ Page({
       goodsId:options.goodsId
     })
     wx.request({
-      url: 'http://127.0.0.1:8000/api/goodsdetail/',
+      url: app.globalData.url+'/api/goodsdetail/',
       header: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")
@@ -34,6 +35,7 @@ Page({
       success(res){
         res.data['missTime'] = util.formatTime(res.data['missTime'],"y-m-d h:m")
         res.data['upTime'] = util.formatTime(res.data['upTime'], "y-m-d h:m")
+        res.data['goodsImg'] = app.globalData.url + res.data['goodsImg']
         that.setData({
           dataList:res.data
         })

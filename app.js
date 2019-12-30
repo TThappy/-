@@ -9,7 +9,7 @@ App({
         wx.getUserInfo({
           success: (res) => {
             wx.request({
-              url: 'http://127.0.0.1:8000/api/auth/',
+              url: this.globalData.url+'/api/auth/',
               header: {
                 "Content-Type": "application/x-www-form-urlencoded"
               },
@@ -82,6 +82,7 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    url: "http://127.0.0.1:8000"
   }
 })
