@@ -13,12 +13,15 @@ App({
               header: {
                 "Content-Type": "application/x-www-form-urlencoded"
               },
-              method: 'GET',
+              method: 'POST',
               data: {
+                vxName: res.userInfo.nickName,
+                vxImage: res.userInfo.avatarUrl,
                 code: ret.code
               },
               success(res) {
-                wx.setStorageSync("sessionId", res.data["session_key"])
+                wx.setStorageSync("sessionId", res.data["session_key"]);
+                wx.setStorageSync("openId", res.data['openid']);
               }
             })
           },

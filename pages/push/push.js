@@ -4,7 +4,7 @@ Component({
     addGlobalClass: true,
   },
   data: {
-    picker: ['校园卡', '钥匙', '书籍','包','证件','手机','其它'],
+    picker: [],
     time: '12:00',
     date: '2018-12-25',
     modalName: null,
@@ -15,19 +15,26 @@ Component({
   attached() {
     console.log("success")
     var that = this;
+    wx.request({
+      url: app.globalData.url + '/api/goodstag/',
+      header:{
+        'Content-Type':'application/x-www-form-urlencoded'
+      },
+      method:'GET',
+      success(res){
+        for(var i = 0;i < res.data.length;i++){
+          that.data.picker.push(res.data[i]['kind'])
+        }
+        that.setData({
+          picker:that.data.picker
+        })
+
+      }
+
+    })
     wx.hideLoading()
   },
   methods: {
-    randomString:function(len) {
-    　　len = len || 32;
-    　　var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
-    　　var maxPos = $chars.length;
-    　　var pwd = '';
-    　　for(i = 0; i<len; i++) {
-  　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
-　　     }
-　　return pwd;
-    },
     formSubmit1: function (e) {
       var that = this;
       wx.uploadFile({

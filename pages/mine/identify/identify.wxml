@@ -26,10 +26,10 @@
     </view>
     <view class="cu-bar bg-white margin-top">
       <view class="action">
-        校园卡
+        照片
       </view>
       <view class="action">
-        {{imgList.length}}/4
+        {{imgList.length}}/1
       </view>
     </view>
     <view class="cu-form-group">

@@ -14,7 +14,7 @@
         <form >
           <view class="cu-form-group margin-top">
             <view class="title">类别:</view>
-            <input value="{{dataList.kind}}" disabled="true"></input>
+            <input value="{{dataList.kind.kind}}" disabled="true"></input>
           </view>
           <view class="cu-form-group">
             <view class="title">拾取时间:</view>

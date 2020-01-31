@@ -7,43 +7,8 @@ Component({
     code: '',
     TabCur: 0,
     scrollLeft: 0,
-    navs:[{
-      title:"校园卡",
-      icon: "cuIcon-newsfill",
-      dataList:[]
-    },
-    {
-      title:"钥匙",
-      icon:"cuIcon-lock",
-      dataList: []
-    },
-    {
-      title:"书籍",
-      icon:"cuIcon-form",
-      dataList: []
-    },
-    {
-      title:"包",
-      icon:"cuIcon-goods",
-      dataList: []
-    },
-    {
-      title:"证件",
-      icon:"cuIcon-vipcard",
-      dataList: []
-    },
-    {
-      title: "手机",
-      icon: "cuIcon-mobile",
-      dataList: []
-    },
-    {
-      title:"其它",
-      icon:"cuIcon-favor",
-      dataList: []
-    }
-
-    ]
+    navs:[],
+    kind:[]
   },
   
   lifetimes:{
@@ -55,36 +20,29 @@ Component({
   attached() {
     console.log("success")
     var that = this;
-    wx.login({
-      success: (ret) => {
-        console.log(ret)
+    wx.request({
+      url: app.globalData.url + '/api/goodstag/',
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      method: 'GET',
+      success(res) {
+        for (var i = 0; i < res.data.length; i++) {
+          that.data.navs.push({
+            title:res.data[i]['kind'],
+            icon:res.data[i]['icon'],
+            dataList:[]  
+          })
+          that.data.kind.push(res.data[i]['kind'])
+        }
         that.setData({
-          code: ret.code
+          navs: that.data.navs,
+          kind:that.data.kind
         })
-        wx.getUserInfo({
-          success: (res) => {
-            wx.request({
-              url: app.globalData.url+'/api/user/',
-              header: {
-                "Content-Type": "application/x-www-form-urlencoded"
-              },
-              method: 'POST',
-              data: {
-                vxName: res.userInfo.nickName,
-                vxImage: res.userInfo.avatarUrl,
-                code: ret.code
-              },
-              success(res){
-                wx.setStorageSync("openId", res.data['openId'])
-              }
-            })
-          },
-
-        })
-
+        console.log(that.data.kind)
       }
 
-    }),
+    })
       wx.request({
         url: app.globalData.url + '/api/goods/',
         header: {
@@ -93,22 +51,11 @@ Component({
         },
         method: 'GET',
         success(res) {
-          
+          console.log(res.data)
+          //存入物品数据
           for (var i = 0; i < res.data.length; i++) {
-            if (res.data[i]['kind'] == '校园卡')
-              that.data.navs[0]['dataList'].push(res.data[i]) 
-            if (res.data[i]['kind'] == '钥匙')
-              that.data.navs[1]['dataList'].push(res.data[i])
-            if (res.data[i]['kind'] == '书籍')
-              that.data.navs[2]['dataList'].push(res.data[i])
-            if (res.data[i]['kind'] == '包')
-              that.data.navs[3]['dataList'].push(res.data[i])
-            if (res.data[i]['kind'] == '证件')
-              that.data.navs[4]['dataList'].push(res.data[i])
-            if (res.data[i]['kind'] == '手机')
-              that.data.navs[5]['dataList'].push(res.data[i])
-            if (res.data[i]['kind'] == '其它')
-              that.data.navs[6]['dataList'].push(res.data[i])
+            var index = that.data.kind.indexOf(res.data[i]['kind']['kind'])
+            that.data.navs[index]['dataList'].push(res.data[i])   
           }
           console.log(that.data.navs)
           that.setData({

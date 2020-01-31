@@ -19,21 +19,21 @@ Page({
       studentNo: e.detail.value.studentNo,
       phone:e.detail.value.phone
     })
-    wx.request({
+    wx.uploadFile({
       url: app.globalData.url + '/api/identity/',
+      filePath: that.data.imgList[0],
+      name: 'img',
       header: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie":"JSESSIONID="+wx.getStorageSync("sessionId")
+        "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")
       },
-      method: 'POST',
-      data: {
+      formData: {
         actual_name: e.detail.value.actual_name,
         studentNo: e.detail.value.studentNo,
         phone: e.detail.value.phone,
-        openId:wx.getStorageSync("openId")
+        openId: wx.getStorageSync("openId")
       },
       success(res) {
-        console.log("urlok")
+        console.log("认证成功")
         wx.navigateTo({
           url: '/pages/nav/nav',
         })
@@ -42,7 +42,7 @@ Page({
   },
   ChooseImage() {
     wx.chooseImage({
-      count: 4, //默认9
+      count: 1, //默认9
       sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album'], //从相册选择
       success: (res) => {
