@@ -1,17 +1,41 @@
+var util = require('../../../utils/util.js');
+var app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    
+    records:[]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    var that = this
+    wx.request({
+      url: app.globalData.url + '/api/pushrecords/',
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")
+      },
+      data: {
+        openId: wx.getStorageSync("openId")
+      },
+      method: "GET",
+      success(res) {
+        console.log(res.data)
+        for(var  i = 0;i < res.data.length;i++){
+          res.data[i]['upTime'] = util.formatTime(res.data[i]['upTime'], "y-m-d h:m")
+          res.data[i]['goodsImg'] = app.globalData.url + res.data[i]['goodsImg']
+        }
+        that.setData({
+          records:res.data
+        })
+        console.log(res.data)
+      }
+    })
   },
 
   /**

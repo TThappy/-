@@ -2,14 +2,15 @@
 App({
   getSession: function () {
     var that = this;
-    console.log(2)
+    console.log(1)
     wx.login({
       success: (ret) => {
         console.log(ret)
         wx.getUserInfo({
-          success: (res) => {
+          success(res){
+            console.log(2)
             wx.request({
-              url: this.globalData.url+'/api/auth/',
+              url: that.globalData.url+'/api/auth/',
               header: {
                 "Content-Type": "application/x-www-form-urlencoded"
               },
@@ -22,6 +23,7 @@ App({
               success(res) {
                 wx.setStorageSync("sessionId", res.data["session_key"]);
                 wx.setStorageSync("openId", res.data['openid']);
+                console.log(res.data)
               }
             })
           },
@@ -34,7 +36,7 @@ App({
   },
   refresh:function(){
     var that=this;
-    setInterval(that.getSession,20*60*1000)
+    setInterval(that.getSession,5*60*1000)
   },
   onLaunch: function () {
     // 展示本地存储能力
@@ -86,6 +88,7 @@ App({
   },
   globalData: {
     userInfo: null,
-    url: "http://127.0.0.1:8000"
+    url: "https://goods.mssail.com"
+    // url:'http://127.0.0.1:8000'
   }
 })

@@ -19,7 +19,44 @@ Component({
  },
   attached() {
     console.log("success")
+
     var that = this;
+    var openid = wx.getStorageSync('openId')
+    if (!openid){
+      wx.login({
+        success: (ret) => {
+          console.log(ret)
+          wx.getUserInfo({
+            success(res) {
+              console.log(2)
+              wx.request({
+                url: app.globalData.url + '/api/auth/',
+                header: {
+                  "Content-Type": "application/x-www-form-urlencoded"
+                },
+                method: 'POST',
+                data: {
+                  vxName: res.userInfo.nickName,
+                  vxImage: res.userInfo.avatarUrl,
+                  code: ret.code
+                },
+                success(res) {
+                  wx.setStorageSync("sessionId", res.data["session_key"]);
+                  wx.setStorageSync("openId", res.data['openid']);
+                  console.log(res.data)
+                }
+              })
+            },
+
+          })
+
+        }
+
+      })
+    }
+    else{
+    }
+ 
     wx.request({
       url: app.globalData.url + '/api/goodstag/',
       header: {
@@ -72,6 +109,16 @@ Component({
     onLoad:function(){
       var that = this;
       
+    },
+    onPullDownRefresh: function () {
+      wx.showNavigationBarLoading()  //在标题栏中显示加载
+      this.attached() //重新加载数据
+      //模拟加载  1秒
+      setTimeout(function () {
+        // complete
+        wx.hideNavigationBarLoading() //完成停止加载
+        wx.stopPullDownRefresh() //停止下拉刷新
+      }, 1500);
     },
     tabSelect(e) {
       console.log(e)
