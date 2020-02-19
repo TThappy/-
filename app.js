@@ -8,7 +8,6 @@ App({
         console.log(ret)
         wx.getUserInfo({
           success(res){
-            console.log(2)
             wx.request({
               url: that.globalData.url+'/api/auth/',
               header: {
@@ -36,7 +35,7 @@ App({
   },
   refresh:function(){
     var that=this;
-    setInterval(that.getSession,5*60*1000)
+    setInterval(that.getSession,9*60*1000)
   },
   onLaunch: function () {
     // 展示本地存储能力

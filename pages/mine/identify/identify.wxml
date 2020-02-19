@@ -26,7 +26,7 @@
     </view>
     <view class="cu-bar bg-white margin-top">
       <view class="action">
-        照片
+        正面人脸照片
       </view>
       <view class="action">
         {{imgList.length}}/1
@@ -49,7 +49,4 @@
       <button class="cu-btn bg-red lg"  form-type="submit">提交信息</button>
     </view>
   </form> 
-</view>
-<view wx:else>
-  您已认证
 </view>

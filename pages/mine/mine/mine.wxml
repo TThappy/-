@@ -11,10 +11,13 @@
 
   <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
     <view class="cu-item arrow">
-      <navigator  class="content" url="/pages/mine/identify/identify" hover-class="none">
+      <navigator  class="content" url="{{identity === '未认证' ? '/pages/mine/identify/identify':'None'}}" hover-class="none">
         <text class="cuIcon-github text-grey"></text>
         <text class="text-grey">实名认证</text>
       </navigator>
+      <view class="action">
+        <view class="cu-tag round bg-orange light">{{identity}}</view>
+      </view>
     </view>
     <view class="cu-item arrow">
       <navigator class="content" url="/pages/mine/get-record/get-record" hover-class="none">
@@ -28,12 +31,19 @@
         <text class="text-grey">投放记录</text>
       </navigator>
     </view>
+     <view class="cu-item arrow">
+      <button class="cu-btn content" open-type="contact">
+        <text class="cuIcon-service text-orange"></text>
+        <text class="text-grey">联系客服</text>
+      </button>
+    </view>  
     <view class="cu-item arrow">
       <view redirect="true" class="content" bindtap="showQrcode">
         <text class="cuIcon-appreciatefill text-red"></text>
         <text class="text-grey">赞赏支持</text>
       </view>
-    </view>  
+    </view> 
+    
   </view>
   
 </view>

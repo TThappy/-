@@ -13,32 +13,142 @@ Page({
   formSubmit: function (e){
     console.log(e);
     var that = this
-    console.log(that.data.imgList)
-    that.setData({
-      actual_name: e.detail.value.actual_name,
-      studentNo: e.detail.value.studentNo,
-      phone:e.detail.value.phone
-    })
-    wx.uploadFile({
-      url: app.globalData.url + '/api/identity/',
-      filePath: that.data.imgList[0],
-      name: 'img',
-      header: {
-        "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")
-      },
-      formData: {
+    var phone_test = (/^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9]))\d{8}$/.test(e.detail.value.phone))
+    var studentNo_test = (/^(\d{10})|(\d{10}[T])$/.test(e.detail.value.studentNo))
+    var img_test = (that.data.imgList.length !== 0) 
+    if (!phone_test && studentNo_test && img_test){
+      wx.showToast({
+        title: '手机号码有误',
+        icon: 'none',
+        image: '',
+        duration: 1500,
+      })
+    }
+    else if (phone_test && !studentNo_test && img_test){
+      wx.showToast({
+        title: '学号有误',
+        icon:'none',
+        duration:1500
+      })
+    }
+    else if (phone_test && studentNo_test && !img_test) {
+      wx.showToast({
+        title: '未上传图片',
+        icon: 'none',
+        duration: 1500
+      })
+    }
+    else if (!phone_test && !studentNo_test && img_test){
+      wx.showToast({
+        title: '学号和手机号有误',
+        icon:'none',
+        duration:1500
+      })
+    }
+    else if (phone_test && !studentNo_test && !img_test) {
+      wx.showToast({
+        title: '学号有误且未上传图片',
+        icon: 'none',
+        duration: 1500
+      })
+    }
+    else if (!phone_test && studentNo_test && !img_test) {
+      wx.showToast({
+        title: '手机号有误且未上传图片',
+        icon: 'none',
+        duration: 1500
+      })
+    }
+    else if (!phone_test && !studentNo_test && !img_test) {
+      wx.showToast({
+        title: '学号和手机号有误且未上传图片',
+        icon: 'none',
+        duration: 2000
+      })
+    }
+    else{
+      //表单校验成功,再验证图片
+      that.setData({
         actual_name: e.detail.value.actual_name,
         studentNo: e.detail.value.studentNo,
-        phone: e.detail.value.phone,
-        openId: wx.getStorageSync("openId")
-      },
-      success(res) {
-        console.log("认证成功")
-        wx.navigateTo({
-          url: '/pages/nav/nav',
-        })
-      }
-    })
+        phone: e.detail.value.phone
+      })
+      wx.getFileSystemManager().readFile({
+        filePath: that.data.imgList[0], //选择图片返回的相对路径
+        encoding: 'base64', //编码格式
+        success(res){
+          wx.request({
+            url: app.globalData.url + '/api/form/',
+            method:'POST',
+            header:{
+              "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId"),
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            data:{
+              base64:res.data
+            },
+            success(res){
+              if (res.data == false){
+                //没有人脸
+                wx.showToast({
+                  title: '图片中没有人脸信息',
+                  icon: 'none',
+                  duration: 1500
+                })
+              }
+              else{
+                wx.uploadFile({
+                  url: app.globalData.url + '/api/form',
+                  filePath: that.data.imgList[0],
+                  name: 'img',
+                  header: {
+                    "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")
+                  },
+                  formData: {
+                    openId: wx.getStorageSync("openId")
+                  }
+                })
+                var submit = new Promise(function (resolve, reject) {
+                  wx.uploadFile({
+                    url: app.globalData.url + '/api/identity/',
+                    filePath: that.data.imgList[0],
+                    name: 'img',
+                    header: {
+                      "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")
+                    },
+                    formData: {
+                      actual_name: e.detail.value.actual_name,
+                      studentNo: e.detail.value.studentNo,
+                      phone: e.detail.value.phone,
+                      openId: wx.getStorageSync("openId")
+                    },
+                    success(res) {
+                      resolve(res)
+
+                    }
+                  })
+                })
+                submit.then(res => {
+                  wx.showToast({
+                    title: '认证成功',
+                    duration: 2000
+                  })
+                  setTimeout(function () {
+                    wx.navigateTo({
+                      url: '/pages/nav/nav',
+                    })
+                  }, 2000)
+
+                })
+              }
+            }
+          })
+        } 
+      })
+      
+      
+    }
+    
   },
   ChooseImage() {
     wx.chooseImage({
@@ -67,9 +177,9 @@ Page({
   DelImg(e) {
     wx.showModal({
       title: '删除图片',
-      content: '确定要删除这段回忆吗？',
-      cancelText: '再看看',
-      confirmText: '再见',
+      content: '确定删除？',
+      cancelText: '取消',
+      confirmText: '确定',
       success: res => {
         if (res.confirm) {
           this.data.imgList.splice(e.currentTarget.dataset.index, 1);

@@ -1,3 +1,4 @@
+var util = require('../../utils/util.js');
 var app = getApp();
 Component({
   options: {
@@ -5,16 +6,23 @@ Component({
   },
   data: {
     picker: [],
-    time: '12:00',
-    date: '2018-12-25',
+    time: '',
+    date: '',
     modalName: null,
     textareaBValue: '',
     imgList: [],
-    index:null
+    index:null,
+    modalName: null
   },
   attached() {
     console.log("success")
+    var date = new Date()
+    var month = date.getMonth() + 1
     var that = this;
+    that.setData({
+      date: date.getFullYear() + '-' + month + '-' + date.getDate(),
+      time: date.getHours() + ':' + date.getMinutes()
+    })
     wx.request({
       url: app.globalData.url + '/api/goodstag/',
       header:{
@@ -37,26 +45,87 @@ Component({
   methods: {
     formSubmit1: function (e) {
       var that = this;
-      wx.uploadFile({
-        url: app.globalData.url + '/api/goods/',
-        filePath: that.data.imgList[0],
-        name: 'img',
-        header: {
-          "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")
-        },
-        formData: {
-          kind: that.data.picker[that.data.index],
-          missTime: that.data.date + ' ' + that.data.time,
-          missPlace: that.data.textareaBValue,
-          openid_user_id: wx.getStorageSync("openId")
-        },
-        success(res) {
-          console.log("物品创建成功")
-          wx.navigateTo({
-            url: '/pages/nav/nav',
+      //异步封装
+      var user =  new Promise(function(resolve,reject){
+        wx.request({
+          url: app.globalData.url + '/api/user/',
+          header: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")
+          },
+          method: 'GET',
+          data: {
+            openId: wx.getStorageSync("openId")
+          },
+          success(res) {
+            resolve(res)
+          },
+          fail(err){
+            reject(err)
+          }
+        })
+      })
+      user.then(res=>{
+        console.log('成功')
+        console.log(res)
+        if (res.data.identify == '0') {
+          //没有进行实名认证
+         
+          wx.showModal({
+            title: '未认证',
+            content: '您未进行认证,请点击确定进行认证',
+            success(res) {
+              if (res.confirm) {
+                wx.navigateTo({
+                  url: '/pages/mine/identify/identify',
+                })
+              }
+              else {
+                return
+              }
+            }
           })
         }
+        else if (res.data.identify == '1') {
+          //已经实名认证
+          var img_test = (that.data.imgList.length !== 0) 
+          if (!that.data.textareaBValue || !that.data.index ||!img_test) {
+            wx.showModal({
+              title: '信息不完整',
+              content: '请填写描述和类别',
+            })
+          }
+          wx.uploadFile({
+            url: app.globalData.url + '/api/goods/',
+            filePath: that.data.imgList[0],
+            name: 'img',
+            header: {
+              "Cookie": "JSESSIONID=" + wx.getStorageSync("sessionId")
+            },
+            formData: {
+              kind: that.data.picker[that.data.index],
+              missTime: that.data.date + ' ' + that.data.time,
+              missPlace: that.data.textareaBValue,
+              openid_user_id: wx.getStorageSync("openId")
+            },
+            success(res) {
+              wx.showToast({
+                title: '物品投放成功',
+                duration:1000
+              })
+              setTimeout(function(){
+                wx.navigateTo({
+                  url: '/pages/nav/nav',
+                })
+              },1000)
+              
+            }
+          })
+
+        }
       })
+      
+      
      
     },
     ChooseImage() {
@@ -122,7 +191,12 @@ Component({
       this.setData({
         textareaBValue: e.detail.value
       })
-    }
+    },
+    hideModal(e) {
+      this.setData({
+        modalName: null
+      })
+    },
   },
   showModal(e) {
 

@@ -76,7 +76,7 @@ Component({
           navs: that.data.navs,
           kind:that.data.kind
         })
-        console.log(that.data.kind)
+  
       }
 
     })
@@ -88,13 +88,13 @@ Component({
         },
         method: 'GET',
         success(res) {
-          console.log(res.data)
+  
           //存入物品数据
           for (var i = 0; i < res.data.length; i++) {
             var index = that.data.kind.indexOf(res.data[i]['kind']['kind'])
             that.data.navs[index]['dataList'].push(res.data[i])   
           }
-          console.log(that.data.navs)
+
           that.setData({
             navs: that.data.navs
           })

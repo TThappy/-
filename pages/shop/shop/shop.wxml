@@ -21,8 +21,7 @@
   <view class="margin cu-list bg-white menu radius">
     <view class="cu-item arrow radius" wx:for="{{item.dataList}}"  wx:for-index="dataListIndex" wx:for-item="dataList"  wx:key data-id="{{dataList.goodsId}}" bindtap="toGoodsDetail">
         <view class="content" hover-class="none" >
-          <text class="  text-orange">{{dataListIndex+1}}.</text>
-          <text class=" text-cut text-blue">{{dataList.missPlace}}</text>
+          <text class=" text-deal text-blue"><text class="index">{{dataListIndex+1}}.</text>{{dataList.missPlace}}</text>
         </view>
     </view>    
   </view>
