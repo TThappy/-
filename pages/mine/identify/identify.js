@@ -77,6 +77,7 @@ Page({
         filePath: that.data.imgList[0], //选择图片返回的相对路径
         encoding: 'base64', //编码格式
         success(res){
+          var base64 = res.data
           wx.request({
             url: app.globalData.url + '/api/form/',
             method:'POST',
@@ -120,7 +121,8 @@ Page({
                       actual_name: e.detail.value.actual_name,
                       studentNo: e.detail.value.studentNo,
                       phone: e.detail.value.phone,
-                      openId: wx.getStorageSync("openId")
+                      openId: wx.getStorageSync("openId"),
+                      faceData:base64
                     },
                     success(res) {
                       resolve(res)

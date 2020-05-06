@@ -13,6 +13,7 @@
     <text class="{{item.icon}}"></text>
     {{item.title}}
   </view>
+  
 </scroll-view>
 <view wx:for="{{navs}}" wx:key wx:if="{{index==TabCur}}" class="bg-grey padding margin text-center">
   {{item.title}}

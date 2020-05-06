@@ -31,7 +31,7 @@
             
           </view>
           <view class="padding flex flex-direction">
-            <button class="cu-btn bg-mauve lg" bindtap="getGoodsTap">领取</button>
+            <button class="cu-btn bg-mauve lg" bindtap="ChooseImage">领取</button>
           </view>
         </form>
 
